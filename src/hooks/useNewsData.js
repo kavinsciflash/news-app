@@ -19,13 +19,15 @@ const useNewsData = (category, searchTerm) => {
         // const response = await fetch(url);
         // const data = await response.json();
         // setNewsData(data.articles);
+
         if (searchParam) {
-          var url = `https://news-api-cs3h.onrender.com/get-category`;
-          const response = (await axios.post(url, { data: searchParam})).data
+          // var url = `https://news-api-cs3h.onrender.com/get-category`;
+          var url = 'http://localhost:5000/get-category'
+          const response = (await axios.post(url, {data: searchParam})).data
           setNewsData(response.articles);
         } else {
           var url = `https://news-api-cs3h.onrender.com/get-news`;
-          const response = (await axios.get(url)).data
+          const response = (await axios(url)).data
           setNewsData(response.articles);
         }
 
