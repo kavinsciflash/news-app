@@ -21,8 +21,7 @@ const useNewsData = (category, searchTerm) => {
         // setNewsData(data.articles);
 
         if (searchParam) {
-          // var url = `https://news-api-cs3h.onrender.com/get-category`;
-          var url = 'http://localhost:5000/get-category'
+          var url = `https://news-api-cs3h.onrender.com/get-category`;
           const response = (await axios.post(url, {data: searchParam})).data
           setNewsData(response.articles);
         } else {
