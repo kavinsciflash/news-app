@@ -20,7 +20,7 @@ const useNewsData = (category, searchTerm) => {
         // const data = await response.json();
         // setNewsData(data.articles);
         if (searchParam) {
-          var url = `https://news-api-cs3h.onrender.com/get-news`;
+          var url = `https://news-api-cs3h.onrender.com/get-category`;
           const response = (await axios(url, { data: searchParam})).data
           setNewsData(response.articles);
         } else {
