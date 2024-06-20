@@ -16,10 +16,10 @@ const useNewsData = (category, searchTerm) => {
         let uri, body;
 
         if (searchParam) {
-          uri = 'http://localhost:5000/get-category';
+          uri = 'https://news-api-cs3h.onrender.com/get-category';
           body = { data: searchParam };
         } else {
-          uri = 'http://localhost:5000/get-news';
+          uri = 'https://news-api-cs3h.onrender.com/get-news';
         }
 
         const response = await axios.post(uri, body);

@@ -39,9 +39,9 @@ function App() {
           <Navbar.Toggle aria-controls="navbar-nav" />
 
           <Navbar.Collapse id="navbar-nav">
-            <Nav className="me-auto">
+            <Nav className="me-auto fw">
               <Dropdown>
-                <Dropdown.Toggle variant="outline-primary">
+                <Dropdown.Toggle variant="outline-primary" className="mt-2">
                   Categories
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
@@ -70,15 +70,15 @@ function App() {
               </Dropdown>
             </Nav>
 
-            <Form onSubmit={handleSearch} className="d-flex">
+            <Form onSubmit={handleSearch} className="d-flex align-items-center">
               <FormControl
                 type="text"
                 placeholder="Search"
-                className="me-2"
+                className="me-2 mt-2"
                 name="search"
               />
 
-              <Button variant="outline-primary" type="submit">
+              <Button variant="outline-primary" type="submit" style={{ height: '35px', lineHeight: '35px', padding: '0 15px' }} className="me-2 mt-2">
                 Search
               </Button>
             </Form>
@@ -87,28 +87,8 @@ function App() {
       </Navbar>
       <Container>
         <Row>
-          <Col xs={12} md={3}>
-            <h5>Categories</h5>
-            <Nav className="flex-column">
-              <Nav.Link onClick={() => handleCategoryClick("world")}>
-                World
-              </Nav.Link>
-              <Nav.Link onClick={() => handleCategoryClick("business")}>
-                Business
-              </Nav.Link>
-              <Nav.Link onClick={() => handleCategoryClick("technology")}>
-                Technology
-              </Nav.Link>
-              <Nav.Link onClick={() => handleCategoryClick("sports")}>
-                Sports
-              </Nav.Link>
-              <Nav.Link onClick={() => handleCategoryClick("entertainment")}>
-                Entertainment
-              </Nav.Link>
-            </Nav>
-          </Col>
-
-          <Col xs={12} md={9}>
+          
+          <Col xs={12} md={12} sm={12}>
             <NewsList category={category} searchTerm={searchTerm} />
           </Col>
         </Row>
