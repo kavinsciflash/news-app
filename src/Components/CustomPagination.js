@@ -10,10 +10,10 @@ function CustomPagination(props) {
       // Adjust the limit based on the window width
       if (window.innerWidth <= 576) {
         setLimit(5); // Example: reduce limit for smaller screens
-      } else if(window.innerWidth <= 760){
-        setLimit(3); // Default limit for larger screens
-      }else{
-        setLimit(1);
+      } else if (window.innerWidth <= 760) {
+        setLimit(3); // Default limit for mid-sized screens
+      } else {
+        setLimit(1); // Default limit for larger screens
       }
     };
 
@@ -25,7 +25,14 @@ function CustomPagination(props) {
 
     // Clean up event listener on component unmount
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, []); // Added an empty dependency array to run this effect only once
+
+  useEffect(() => {
+    // When limit changes, adjust current page to ensure valid pagination
+    if (currentPage > Math.ceil(totalPages / limit)) {
+      onPageChange(Math.ceil(totalPages / limit));
+    }
+  }, [limit, currentPage, totalPages, onPageChange]);
 
   const handlePageClick = (pageNumber) => {
     onPageChange(pageNumber);
@@ -33,13 +40,14 @@ function CustomPagination(props) {
 
   const renderPageItems = () => {
     const pageItems = [];
+    const numPages = Math.ceil(totalPages / limit);
 
-    for (let i = 1; i <= Math.ceil(totalPages / limit); i++) {
+    for (let i = 1; i <= numPages; i++) {
       pageItems.push(
         <Pagination.Item
           key={i}
           active={i === currentPage}
-          onClick={() => onPageChange(i)}
+          onClick={() => handlePageClick(i)}
         >
           {i}
         </Pagination.Item>
@@ -58,7 +66,7 @@ function CustomPagination(props) {
         />
         {renderPageItems()}
         <Pagination.Next
-          disabled={currentPage === totalPages}
+          disabled={currentPage === Math.ceil(totalPages / limit)}
           onClick={() => handlePageClick(currentPage + 1)}
         />
       </Pagination>
