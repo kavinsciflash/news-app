@@ -5,6 +5,10 @@ import useNewsData from "../hooks/useNewsData";
 import CustomPagination from "./CustomPagination";
 import Image from '../assets/images/news.jpg';
 
+// loading screen imports
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 const NewsList = (props) => {
   const { category, searchTerm } = props;
   const [currentPage, setCurrentPage] = useState(1);
@@ -65,8 +69,32 @@ const NewsList = (props) => {
     }));
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if (loading && !newsData.length) {
+    return (
+      <Container>
+        <Row>
+          {[...Array(pageSize)].map((_, index) => (
+            <Col xs={12} md={6} lg={4} key={index} style={{ marginTop: '20px' }}>
+              <Card>
+                <Skeleton height={200} />
+                <Card.Body style={{ minHeight: '150px', height: '150px', overflow: 'hidden' }}>
+                  <Skeleton height={20} width="80%" />
+                  <Skeleton count={3} />
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+
+        <div style={{ marginTop: "50px" }}>
+          <CustomPagination
+            currentPage={currentPage}
+            totalPages={1}
+            onPageChange={() => {}}
+          />
+        </div>
+      </Container>
+    );
   }
 
   if (error) {
