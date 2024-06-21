@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
@@ -7,31 +8,25 @@ const useNewsData = (category, searchTerm) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchNewsData() {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null); // Reset error state before each request
+
       try {
-        setLoading(true);
-
-        const searchParam = category ? category : searchTerm ? searchTerm : "all";
-
-        let uri, body;
-
-        if (searchParam) {
-          uri = 'https://news-api-cs3h.onrender.com/get-category';
-          body = { data: searchParam };
-        } else {
-          uri = 'https://news-api-cs3h.onrender.com/get-news';
-        }
+        const searchParam = category || searchTerm || "all";
+        const uri = searchParam ? `${process.env.REACT_APP_API_URI}/get-category` : `${process.env.REACT_APP_API_URI}/get-news`;
+        const body = searchParam ? { data: searchParam } : undefined;
 
         const response = await axios.post(uri, body);
         setNewsData(response.data.articles);
-        setLoading(false);
       } catch (error) {
         setError(error);
+      } finally {
         setLoading(false);
       }
-    }
+    };
 
-    fetchNewsData();
+    fetchData();
   }, [category, searchTerm]);
 
   return { newsData, loading, error };
